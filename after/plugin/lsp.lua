@@ -7,7 +7,6 @@ lsp_zero.preset("recommended")
 require'lspconfig'.csharp_ls.setup{}
 require'lspconfig'.lua_ls.setup{}
 
-
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_mappings = lsp_zero.defaults.cmp_mappings({
