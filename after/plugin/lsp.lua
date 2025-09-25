@@ -1,7 +1,4 @@
 local lsp_zero = require('lsp-zero')
-
-
-
 lsp_zero.preset("recommended")
 
 require'lspconfig'.csharp_ls.setup{}
