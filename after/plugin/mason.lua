@@ -1,15 +1,39 @@
+-- after/plugin/lsp.lua
+-- Mason ve Mason-LSPConfig kurulumu
 require("mason").setup()
-require("mason-lspconfig").setup()
-require("mason-lspconfig").setup_handlers {
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn't have
-    -- a dedicated handler.
-    function (server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {}
-    end,
-    -- Next, you can provide a dedicated handler for specific servers.
-    -- For example, a handler override for the `rust_analyzer`:
-    -- ["rust_analyzer"] = function ()
-    --     require("rust-tools").setup {}
-    -- end
-}
+require("mason-lspconfig").setup({
+    ensure_installed = { "lua_ls", "ts_ls", "pyright", "rust_analyzer" },
+    handlers = {
+        -- Her server için otomatik çalışacak default handler
+        function(server_name)
+            local config = vim.lsp.config[server_name] or {}
+            vim.lsp.start(config)
+        end,
+    },
+})
+
+-- CMP (autocomplete) kurulumu
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+    }, {
+        { name = "buffer" },
+    })
+})
+
