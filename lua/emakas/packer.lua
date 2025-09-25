@@ -11,10 +11,10 @@ return require('packer').startup(function(use)
 		-- or                            , branch = '0.1.x',
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
-	use({ 'rose-pine/neovim',
-		as = 'rose-pine',
+    use { 'rktjmp/lush.nvim' }
+	use({ 'ntk148v/habamax.nvim',
 		config = function()
-			vim.cmd('colorscheme rose-pine')
+			vim.cmd('colorscheme habamax')
 		end
 	})
 	use { 'nvim-treesitter/nvim-treesitter', { run  = ':TSUpdate'} }
