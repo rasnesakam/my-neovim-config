@@ -2,7 +2,20 @@
 -- Mason ve Mason-LSPConfig kurulumu
 require("mason").setup()
 require("mason-lspconfig").setup({
-    ensure_installed = { "lua_ls", "ts_ls", "pyright", "rust_analyzer" },
+    ensure_installed = {
+        "arduino_language_server",
+        "clangd",
+        "neocmake",
+        "csharp_ls",
+        "dockerls",
+        "jsonls",
+        "kotlin_language_server",
+        "lua_ls",
+        "sqls",
+        "pyright",
+        "rust_analyzer",
+        "ts_ls",
+    },
     handlers = {
         -- Her server için otomatik çalışacak default handler
         function(server_name)
