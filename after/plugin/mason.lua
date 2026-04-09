@@ -1,5 +1,3 @@
--- after/plugin/lsp.lua
--- Mason ve Mason-LSPConfig kurulumu
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
@@ -8,6 +6,7 @@ require("mason-lspconfig").setup({
         "neocmake",
         "csharp_ls",
         "dockerls",
+        "jdtls",
         "jsonls",
         "kotlin_language_server",
         "lua_ls",
@@ -17,36 +16,11 @@ require("mason-lspconfig").setup({
         "ts_ls",
     },
     handlers = {
-        -- Her server için otomatik çalışacak default handler
         function(server_name)
-            local config = vim.lsp.config[server_name] or {}
-            vim.lsp.start(config)
+            if server_name == "jdtls" then
+                return -- ftplugin/java.lua already handles
+            end
+            require('lspconfig')[server_name].setup({})
         end,
     },
 })
-
--- CMP (autocomplete) kurulumu
-local cmp = require("cmp")
-local luasnip = require("luasnip")
-
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
-    },
-    mapping = cmp.mapping.preset.insert({
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-    }),
-    sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-    }, {
-        { name = "buffer" },
-    })
-})
-
