@@ -15,12 +15,5 @@ require("mason-lspconfig").setup({
         "rust_analyzer",
         "ts_ls",
     },
-    handlers = {
-        function(server_name)
-            if server_name == "jdtls" then
-                return -- ftplugin/java.lua already handles
-            end
-            require('lspconfig')[server_name].setup({})
-        end,
-    },
+    automatic_enable = { exclude = { "jdtls" } },
 })

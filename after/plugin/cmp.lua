@@ -21,3 +21,14 @@ cmp.setup({
         { name = "buffer" },
     })
 })
+
+cmp.setup.filetype("java", {
+    preselect = cmp.PreselectMode.None,
+    sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+    }),
+    mapping = {
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    },
+})
